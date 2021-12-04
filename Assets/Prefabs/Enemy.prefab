@@ -234,7 +234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  provokeRange: 10
+  provokeRange: 25
   turnSpeed: 5
 --- !u!114 &2587586495615553312
 MonoBehaviour:

@@ -5,25 +5,41 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    [SerializeField] Camera FPSCamera;
     [SerializeField] float shootingDistance = 100f;
     [SerializeField] float damage = 30f;
+    [SerializeField] float timeBetweenShots = 0.5f;
+
     [SerializeField] ParticleSystem shootingFlash;
     [SerializeField] GameObject hitEffect;
-    
+    [SerializeField] Camera FPSCamera;
+
+    Ammo ammoSlot;
+    bool canShoot = true;
+
+    void Start() 
+    {
+        ammoSlot = GetComponent<Ammo>();    
+    }
 
     void Update()
     {
-        if(Input.GetButtonDown("Fire1"))
+        if(Input.GetMouseButtonDown(0) && canShoot)
         {
-            Shoot();
+            StartCoroutine(Shoot());
         }
     }
 
-    void Shoot()
+    IEnumerator Shoot()
     {
-        ProcessMuzzleFlash();
-        ProcessRaycast();
+        canShoot = false;
+        if(ammoSlot.AmmoAmount > 0)
+        {
+            ProcessMuzzleFlash();
+            ProcessRaycast();
+            ammoSlot.ReduceCurrentAmmo();
+        }
+        yield return new WaitForSeconds(timeBetweenShots);
+        canShoot = true;
     }
 
     void ProcessMuzzleFlash()
@@ -41,6 +57,7 @@ public class Weapon : MonoBehaviour
             if (enemy != null)
             {
                 enemy.TakeDamage(damage);
+                enemy.GetComponent<EnemyAI>().IsProvoked = true;
             }
         }
         else

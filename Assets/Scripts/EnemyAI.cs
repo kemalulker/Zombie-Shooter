@@ -14,7 +14,8 @@ public class EnemyAI : MonoBehaviour
     Animator animator;
     float distanceToTarget = Mathf.Infinity;
     bool isProvoked = false;
-    
+    public bool IsProvoked { get => isProvoked; set => isProvoked = value; }
+
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -24,13 +25,13 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         distanceToTarget = Vector3.Distance(target.position, transform.position);
-        if(isProvoked)
+        if(IsProvoked)
         {
             EngageTarget();
         }
         else if(distanceToTarget <= provokeRange)
         {
-            isProvoked = true;
+            IsProvoked = true;
         }
     }
 
