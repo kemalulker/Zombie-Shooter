@@ -12,4 +12,9 @@ public class Ammo : MonoBehaviour
     {
         ammoAmount--;
     }
+
+    public void IncreaseCurrentAmmo(int amountToIncrease)
+    {
+        ammoAmount += amountToIncrease;
+    }
 }
